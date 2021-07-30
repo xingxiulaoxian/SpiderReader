@@ -1,12 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState, useEffect, FC } from 'react';
-import {
-  FlatList,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import serveMenus, { MenusInterface } from '../services/menus';
 
 type MenuItemProps = {
