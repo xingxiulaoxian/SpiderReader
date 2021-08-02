@@ -5,6 +5,7 @@ import Home from '../pages/home';
 import Search from '../pages/search';
 import Info from '../pages/info';
 import Menus from '../pages/menus';
+import Me from '../pages/Me';
 
 interface Route {
   name: string;
@@ -14,6 +15,7 @@ interface Route {
 
 export const routers: Route[] = [
   { name: 'Home', title: '首页', component: Home },
+  { name: 'Me', title: '个人中心', component: Me },
   { name: 'Search', title: '搜索', component: Search },
   { name: 'Info', title: '详情', component: Info },
   { name: 'Menus', title: '菜单', component: Menus },

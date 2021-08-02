@@ -1,5 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
+import { useRef } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import serveInfo from '../services/info';
 
@@ -14,24 +15,25 @@ function Paragraphs({ text }: ParagraphsProps) {
     </View>
   );
 }
-
-function Info({ navigation, route }: StackScreenProps<any>) {
-  const { params } = route;
+interface Params {
+  url: string;
+  top: number | undefined;
+}
+function Info({ route }: StackScreenProps<any>) {
+  const ref: React.MutableRefObject<ScrollView | null> = useRef(null);
+  const { url, top } = route.params as Params;
   const [paragraphs, setParagraphs] = useState<string[]>([]);
 
-  const getData = (url: string) => {
+  useEffect(() => {
+    console.log(url, top);
     serveInfo(url).then(res => {
       setParagraphs(res);
+      ref.current?.scrollTo(top || 0);
     });
-  };
-
-  useEffect(() => {
-    console.log(navigation, params);
-    getData(params?.url);
-  }, [navigation, params]);
+  }, [url, top]);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView ref={ref} style={styles.container}>
       <Paragraphs text="" />
       {paragraphs.map((v, index) => (
         <Paragraphs key={index} text={v} />

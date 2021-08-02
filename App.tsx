@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 import { MainContext } from './src/context';
 
 import Routers from './src/routers';
+import store from './src/db';
 
 const App = () => {
   const [platform, setPlatform] = useState(0);
@@ -20,7 +21,9 @@ const App = () => {
       value={{
         platform,
         setPlatform,
-      }}>
+        store,
+      }}
+    >
       <Routers />
     </MainContext.Provider>
   );

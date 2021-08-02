@@ -13,12 +13,14 @@
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
     "cheerio": "^1.0.0-rc.10",
+    "dayjs": "^1.10.6",
     "react": "17.0.1",
     "react-is": "^17.0.2",
     "react-native": "0.64.1",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-safe-area-context": "^3.2.0",
-    "react-native-screens": "^3.4.0"
+    "react-native-screens": "^3.4.0",
+    "realm": "^10.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

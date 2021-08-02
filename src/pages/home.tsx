@@ -1,3 +1,4 @@
+import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import {
   FlatList,
@@ -14,20 +15,19 @@ interface Pages {
 }
 
 const DATA: Pages[] = [
-  { title: '首页', link: 'Home' },
+  { title: '个人中心', link: 'Me' },
   { title: '搜索', link: 'Search' },
-  { title: '详情', link: 'Info' },
-  { title: '菜单', link: 'Menus' },
 ];
 
-const Item = ({ title, link, navigation }: Pages) => {
+const HomeItem = ({
+  title,
+  link,
+  onPress = () => {},
+}: Pages & {
+  onPress(): void;
+}) => {
   return (
-    <TouchableOpacity
-      style={styles.item}
-      onPress={() => {
-        navigation.navigate(link);
-      }}
-    >
+    <TouchableOpacity style={styles.item} onPress={onPress}>
       <View style={styles.item}>
         <Text style={styles.title}>
           {title} {link}
@@ -37,18 +37,21 @@ const Item = ({ title, link, navigation }: Pages) => {
   );
 };
 
-function Home({ navigation }) {
-  const renderItem = ({ item }) => (
-    <Item navigation={navigation} title={item.title} link={item.link} />
-  );
+const Home: React.FC<StackScreenProps<any>> = ({ navigation }) => {
   return (
     <FlatList
       data={DATA}
-      renderItem={renderItem}
+      renderItem={({ item }) => (
+        <HomeItem
+          onPress={() => navigation.navigate(item.link)}
+          title={item.title}
+          link={item.link}
+        />
+      )}
       keyExtractor={item => item.link}
     />
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
