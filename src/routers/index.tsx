@@ -6,6 +6,7 @@ import Search from '../pages/search';
 import Info from '../pages/info';
 import Menus from '../pages/menus';
 import Me from '../pages/Me';
+import ReadView from '../pages/readView';
 
 interface Route {
   name: string;
@@ -19,6 +20,7 @@ export const routers: Route[] = [
   { name: 'Search', title: '搜索', component: Search },
   { name: 'Info', title: '详情', component: Info },
   { name: 'Menus', title: '菜单', component: Menus },
+  { name: 'ReadView', title: '阅读页', component: ReadView },
 ];
 const Stack = createStackNavigator();
 

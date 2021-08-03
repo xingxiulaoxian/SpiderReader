@@ -3,7 +3,7 @@ function diffMap(
   map2: Map<string, any>,
 ): Map<string, any> {
   for (const [key] of map1) {
-    if (map1.get(key) === map2.get(key)) {
+    if (map1.get(key) && map2.get(key)) {
       map1.delete(key);
       map2.delete(key);
     }

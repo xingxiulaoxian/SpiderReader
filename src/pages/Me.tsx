@@ -23,7 +23,7 @@ const Me: React.FC<StackScreenProps<any>> = ({ navigation }) => {
         <TouchableOpacity
           style={styles.itemContainer}
           onPress={() => {
-            navigation.navigate('Menus', {
+            navigation.navigate('ReadView', {
               url: item.url,
               bid: item.bid,
               rateOfProgress: {

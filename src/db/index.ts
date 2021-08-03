@@ -17,15 +17,36 @@ export class Store {
   }
   create(tableName: string, value: object | object[]) {
     const realm = this.db;
-    return realm.write(() => {
-      if (Array.isArray(value)) {
-        value.forEach(item => {
-          realm.create(tableName, item);
-        });
-      } else {
-        realm.create(tableName, value);
-      }
-    });
+    try {
+      return realm.write(() => {
+        if (Array.isArray(value)) {
+          value.forEach(item => {
+            realm.create(tableName, item);
+          });
+        } else {
+          realm.create(tableName, value);
+        }
+      });
+    } catch (err) {
+      console.error('Store.create - 数据库创建数据失败', err);
+    }
+  }
+  update(tableName: string, key: string, id: number, data: object) {
+    const realm = this.db;
+    try {
+      return realm.write(() => {
+        realm.create(
+          tableName,
+          {
+            ...data,
+            [key]: id,
+          },
+          'modified',
+        );
+      });
+    } catch (err) {
+      console.error('Store.update - 数据库更新数据失败', err);
+    }
   }
 }
 

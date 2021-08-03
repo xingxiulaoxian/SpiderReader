@@ -1,13 +1,15 @@
 import React from 'react';
 import store, { Store } from '../db';
 
-export interface LayoutContent {
+export interface MainContextProps {
   platform: number;
   setPlatform?: (val: number) => void;
   store: Store;
 }
 
-export const MainContext: React.Context<LayoutContent> = React.createContext({
-  platform: 0,
-  store: store,
-});
+export const MainContext: React.Context<MainContextProps> = React.createContext(
+  {
+    platform: 0,
+    store: store,
+  },
+);
