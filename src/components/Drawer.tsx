@@ -3,11 +3,12 @@ import {
   Animated,
   Dimensions,
   StyleSheet,
+  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import clickExtension from '../utils/clickExtension';
+// import clickExtension from '../utils/clickExtension';
 
 const width = Dimensions.get('window').width;
 
@@ -23,7 +24,8 @@ const Drawer: React.FC<{
       useNativeDriver: true,
     }).start();
   };
-  const show = clickExtension(() => toggle(0));
+  const show = () => toggle(0);
+  // const show = clickExtension(() => toggle(0));
   return (
     <View style={styles.container}>
       <Animated.View
@@ -38,9 +40,16 @@ const Drawer: React.FC<{
           onPress={() => toggle(-width)}
         />
       </Animated.View>
-      <TouchableWithoutFeedback onPress={show}>
+      {/* <TouchableWithoutFeedback onPress={show}> */}
+      <View style={styles.mainWrapper}>
         <View style={styles.main}>{children}</View>
-      </TouchableWithoutFeedback>
+        <View style={styles.toggleBtn}>
+          <TouchableWithoutFeedback onPress={show}>
+            <Text>{'>>'}</Text>
+          </TouchableWithoutFeedback>
+        </View>
+      </View>
+      {/* </TouchableWithoutFeedback> */}
     </View>
   );
 };
@@ -62,14 +71,33 @@ const styles = StyleSheet.create({
   },
   leftWrapper: {
     flex: 6,
-    backgroundColor: '#f00',
+    backgroundColor: '#fff',
   },
   leftActive: {
     flex: 4,
   },
+  mainWrapper: {
+    position: 'relative',
+    flex: 1,
+  },
   main: {
     height: '100%',
     // backgroundColor: '#000',
+  },
+  toggleBtn: {
+    position: 'absolute',
+    bottom: 100,
+    left: 0,
+    width: 40,
+    height: 40,
+    backgroundColor: '#666',
+  },
+  textContent: {
+    width: '100%',
+    height: '100%',
+    textAlign: 'center',
+    lineHeight: 40,
+    color: '#f1f1f1',
   },
 });
 

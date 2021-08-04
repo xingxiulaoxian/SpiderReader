@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   View,
   Alert,
+  StyleSheet,
+  Button,
 } from 'react-native';
 import { MainContext, MainContextProps } from '../context';
 import { Menu } from '../db/MenuSchema';
@@ -46,6 +48,7 @@ type MenuItemProps = {
   title: string;
   read: boolean;
   index: number;
+  active?: boolean;
   onPress(): void;
 };
 
@@ -53,11 +56,17 @@ const MenuItem: React.FC<MenuItemProps> = ({
   title = '',
   index,
   read = false,
+  active = false,
   onPress,
 }) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Text style={{ height: 24 }}>
+      <Text
+        style={{
+          ...styles.menu,
+          ...(active ? styles.active : {}),
+        }}
+      >
         {read ? '◉' : '◔'} {index} {title}
       </Text>
     </TouchableOpacity>
@@ -80,7 +89,7 @@ const formatData = (
 ): Promise<Menu[]> => {
   return new Promise(resolve => {
     if (local.length < remote.length) {
-      console.log('有更新---TODO---readView');
+      Alert.alert('有新的更新');
       const diffListOfMap = diffMap(
         arr2obj(local, 'mid'),
         arr2obj(remote, 'mid'),
@@ -95,7 +104,7 @@ const formatData = (
       createHandel(storage);
       resolve(local.concat(storage));
     } else {
-      console.log('无更新---readView');
+      Alert.alert('无更新');
       resolve(local);
     }
   });
@@ -129,6 +138,7 @@ class ReadView extends React.Component<IProps, IState> {
     this.getArticleContext(menus[index].url);
 
     setTimeout(() => {
+      console.log('------', index, top);
       this.menusRef.current?.scrollToIndex({ index });
       this.articleRef.current?.scrollTo({ y: top });
     }, 0);
@@ -221,17 +231,17 @@ class ReadView extends React.Component<IProps, IState> {
   setRateOfProgress = (mid: number, top: number, title: string) => {
     const { context } = this;
     const { route, navigation } = this.props;
-    const { bid } = route.params as Params;
+    const { bid, rateOfProgress } = route.params as Params;
 
     // 设置标题
     navigation.setOptions({ title });
 
-    console.log(mid, top);
-
-    context.store.update('Book', 'bid', bid, {
-      rateOfProgressTop: top,
-      rateOfProgressMenuId: mid,
-    });
+    if (rateOfProgress) {
+      context.store.update('Book', 'bid', bid, {
+        rateOfProgressTop: top,
+        rateOfProgressMenuId: mid,
+      });
+    }
   };
 
   // 滚动结束后插入数据库位置
@@ -245,7 +255,7 @@ class ReadView extends React.Component<IProps, IState> {
   prevChapter = () => {
     const { menus, currentMenu } = this.state;
     if (currentMenu === 0) {
-      return Alert.alert('已经是第一篇了');
+      return Alert.alert('已经是第一章了');
     }
     const current = currentMenu - 1;
     const menu = menus[current];
@@ -304,7 +314,7 @@ class ReadView extends React.Component<IProps, IState> {
       this.prevChapter();
       console.log('到顶了');
     } else if (scrollTop + viewHeight >= height) {
-      this.nextChapter();
+      // this.nextChapter();
       console.log('到底了');
     }
   };
@@ -337,6 +347,7 @@ class ReadView extends React.Component<IProps, IState> {
             renderItem={({ item, index }) => (
               <MenuItem
                 title={item.title}
+                active={index === currentMenu}
                 read={item.read}
                 index={index}
                 onPress={() => {
@@ -367,11 +378,22 @@ class ReadView extends React.Component<IProps, IState> {
             {articleContext.map((v, i) => (
               <Paragraphs key={`${menus[currentMenu]?.mid}-${i}`} text={v} />
             ))}
+            <Button title="下一篇" onPress={this.nextChapter} />
           </ScrollView>
         </View>
       </Drawer>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  menu: {
+    height: 24,
+    color: '#333',
+  },
+  active: {
+    color: '#f00',
+  },
+});
 
 export default ReadView;

@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  Alert,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { MainContext } from '../context';
@@ -41,11 +42,12 @@ function Search({ navigation }: StackScreenProps<any>) {
         <FlatList
           data={list}
           keyExtractor={item => `${item.bid}`}
+          ListEmptyComponent={<Text>请在输入框搜索，如果没有那就是没有了</Text>}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.itemContainer}
               onPress={() => {
-                navigation.navigate('Menus', {
+                navigation.navigate('ReadView', {
                   url: item.url,
                 });
               }}
@@ -54,13 +56,16 @@ function Search({ navigation }: StackScreenProps<any>) {
                 {item.name} - {item.author}
               </Text>
               <Button
-                title="star"
+                title="加入收藏"
                 onPress={() => {
                   context.store.create('Book', {
                     ...item,
                     star: true,
                     init: true,
                   });
+                  Alert.alert(
+                    '应该已经存入数据库，可以去个人中心查看，直接点开可能不会记录读取进度',
+                  );
                 }}
               />
             </TouchableOpacity>
