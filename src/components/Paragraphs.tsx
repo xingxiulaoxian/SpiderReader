@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   text: {
-    fontSize: 14,
+    fontSize: 16,
     lineHeight: 24,
   },
 });

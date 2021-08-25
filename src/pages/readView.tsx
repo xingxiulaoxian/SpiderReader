@@ -104,7 +104,6 @@ const formatData = (
       createHandel(storage);
       resolve(local.concat(storage));
     } else {
-      Alert.alert('无更新');
       resolve(local);
     }
   });

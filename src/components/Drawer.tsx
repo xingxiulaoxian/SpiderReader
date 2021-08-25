@@ -88,15 +88,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 100,
     left: 0,
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 20,
     backgroundColor: '#666',
   },
   textContent: {
     width: '100%',
     height: '100%',
     textAlign: 'center',
-    lineHeight: 40,
+    lineHeight: 20,
     color: '#f1f1f1',
   },
 });
